@@ -1,0 +1,101 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Catálogo de Productos</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+
+  <style>
+    body {
+      background: linear-gradient(to right, #e3f2fd, #f8f9fa);
+      min-height: 100vh;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .card {
+      border: none;
+      border-radius: 1rem;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.15);
+    }
+
+    .card-img-top {
+      height: 280px;
+      object-fit: contain;
+      background-color: #f1f1f1;
+      border-top-left-radius: 1rem;
+      border-top-right-radius: 1rem;
+      padding: 0.5rem;
+    }
+
+    .card-title {
+      color: #0d6efd;
+      font-weight: 600;
+    }
+
+    .card-price {
+      font-size: 1.25rem;
+      color: #28a745;
+      font-weight: bold;
+    }
+
+    .product-meta {
+      font-size: 0.9rem;
+      color: #6c757d;
+    }
+
+    .badge-stock {
+      font-size: 0.9rem;
+      padding: 0.35em 0.75em;
+      border-radius: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container py-5">
+    <h1 class="text-center mb-5 text-primary fw-bold">Catálogo de Productos</h1>
+
+    <div class="row g-4 justify-content-center">
+      {% for producto in productos %}
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+          <div class="card h-100 shadow-sm">
+            {% if producto.imagen %}
+              <img src="{{ producto.imagen.url }}" class="card-img-top" alt="{{ producto.nombre }}">
+            {% else %}
+              <img src="{% static 'img/sin_imagen.png' %}" class="card-img-top" alt="Sin imagen">
+            {% endif %}
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title">{{ producto.nombre }}</h5>
+              <p class="card-text">{{ producto.descripcion }}</p>
+
+              <!-- Stock -->
+              {% if producto.stock > 0 %}
+                <span class="badge bg-success badge-stock mb-2">Stock: {{ producto.stock }}</span>
+              {% else %}
+                <span class="badge bg-danger badge-stock mb-2">Sin stock</span>
+              {% endif %}
+
+              <div class="mt-auto">
+                <p class="card-price">${{ producto.precio }}</p>
+              </div>
+            </div>
+            <div class="card-footer bg-white border-top-0">
+              <small class="product-meta"><strong>Creado:</strong> {{ producto.creado }}</small><br>
+              <small class="product-meta"><strong>Actualizado:</strong> {{ producto.actualizado }}</small>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+</body>
+</html>

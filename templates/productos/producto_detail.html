@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ producto.nombre }}</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+  {% load static %}
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card shadow-sm">
+          {% if producto.imagen %}
+            <img src="{{ producto.imagen.url }}" class="card-img-top" alt="{{ producto.nombre }}">
+          {% else %}
+            <img src="{% static 'img/placeholder.png' %}" class="card-img-top" alt="Imagen no disponible">
+          {% endif %}
+          <div class="card-body">
+            <h3 class="card-title">{{ producto.nombre }}</h3>
+            <p class="card-text">{{ producto.descripcion }}</p>
+            <p class="card-text">
+              <span class="fw-bold">Precio:</span> ${{ producto.precio }}
+            </p>
+            {% if producto.stock > 0 %}
+              <span class="badge bg-success">En stock: {{ producto.stock }}</span>
+            {% else %}
+              <span class="badge bg-danger">Agotado</span>
+            {% endif %}
+            <div class="mt-4">
+              <a href="{% url 'lista_productos' %}" class="btn btn-outline-secondary">Volver a la lista</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
